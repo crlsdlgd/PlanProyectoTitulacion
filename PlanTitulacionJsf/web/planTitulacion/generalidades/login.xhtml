@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <script src="https://www.google.com/recaptcha/api.js"></script>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Login</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <ui:decorate template="/componentesGenerales/plantillas/template_1.xhtml"></ui:decorate>
+            <div class="container">
+                <h:form>
+                    <p:messages id="mensajes"/>
+                    <div class="centrar">                  
+                        <p:inputText class="centrar" placeholder="Usuario" value="#{controladorUsuario.nick}"/> 
+                        <br/>
+                        <p:password class="centrar" placeholder="Contraseña" value="#{controladorUsuario.password}"/>
+                        <br/>
+                        <!--*************ReCaptcha localhost******************-->
+                        <!--<div style="display: flex;justify-content: center;width: 100%;" class="g-recaptcha" data-sitekey="6LeHoCQaAAAAACcmq_ZllX_2dEj4APwoR-uHNUyV"></div>-->
+                        <!--*************ReCaptcha Digital Ocean******************-->
+                        <div style="display: flex;justify-content: center;width: 100%;" class="g-recaptcha" data-sitekey="6Lfc1KgaAAAAAJnbi0n5hsjqYt-GLuguKjYy_ium"></div>
+                        <br/>
+                        <p:commandButton value="Ingresar" action="#{controladorUsuario.login()}" update="mensajes :dlgRol"/>                        
+                    </div>
+
+                </h:form>
+            </div>
+
+            <p:dialog id="dlgRol" widgetVar="wlgRol" header="Ingresar con funciones de ..." modal="true" width="300px">
+
+                <h:form class="centrar">
+                    <h:selectOneMenu value="#{controladorUsuario.rolSelect}" class="form-control" >
+                        <f:selectItem itemLabel="Selecione un rol" itemValue=""/>
+                        <f:selectItems value="#{controladorUsuario.listaRolUser}"  var="rol" itemLabel="#{rol}" itemValue="#{rol}"/>
+                    </h:selectOneMenu>
+                    <br/>
+                    <p:commandButton value="Ingresar" action="#{controladorUsuario.redireccionRol()}" />
+                </h:form>
+            </p:dialog>
+
+        </h:body>
+
+    </f:view>
+</html>
+

@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html" transient="true">
+        <h:head>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <h:outputStylesheet library="css" name="general.css"/>
+            <script src="https://www.google.com/recaptcha/api.js"></script>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Cambiar Contraseña</title>
+            </f:facet>
+        </h:head>
+
+        <h:body class="dtic">
+            <ui:decorate template="/componentesGenerales/plantillas/template.xhtml"></ui:decorate>
+
+            <div class="container">
+                <h:form id="formEditarPerfil">
+                    <p:messages id="mensajes"/>                 
+
+                    <p:panel header="Cambiar Contraseña">
+                        <h:panelGrid columns="16">
+                            <!--contrasena actual-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Contraseña Actual:" id="lblPassword" for="inpPassword"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:password value="#{controladorRegistro.usrPassword}" id="inpPassword" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"/> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgPassword" for="inpPassword" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--contrasena nueva-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Contraseña Nueva:" id="lblNewPassword" for="inpNewPassword"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:password value="#{controladorRegistro.usrPasswordNueva}" id="inpNewPassword" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarContrasena"/> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgNewPassword" for="inpNewPassword" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+
+                            <!--Contrasena repita-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Repita Contraseña Nueva: " id="lblRepitPassword" for="inpRepitPassword"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:password value="#{controladorRegistro.usrPasswordNueva2}" id="inpRepitPassword" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarContrasena2">
+                                                <f:attribute name="contrasena1" value="#{controladorRegistro.usrPasswordNueva}"/>
+                                            </p:password>
+                                            
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgRepitPassword" for="inpRepitPassword" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <div class="centrar">
+                        <p:commandButton value="Actualizar Datos" oncomplete="PF('wlgActualizarDatos').show();" />                       
+                        <p:commandButton value="Cancelar" action="irPrincipal" immediate="true"/>                       
+                    </div>
+                </h:form>
+            </div>
+
+            <p:dialog id="dlgRegistro" widgetVar="wlgActualizarDatos" header="ADVERTENCIA" modal="true" width="400px">
+
+                <h:form>
+                    <p:outputLabel value="¿Está seguro que desea actualizar su contraseña?" />
+                    <div class="centrar">
+                        <p:commandButton value="Aceptar" action="#{controladorRegistro.updateContrasena()}" update=":formEditarPerfil:mensajes" oncomplete="PF('wlgActualizarDatos').hide();"/>
+                             
+                        <p:commandButton value="Cancelar" oncomplete="PF('wlgActualizarDatos').hide();" />
+                    </div>
+                </h:form>
+            </p:dialog>
+
+        </h:body>
+    </f:view>
+</html>
+

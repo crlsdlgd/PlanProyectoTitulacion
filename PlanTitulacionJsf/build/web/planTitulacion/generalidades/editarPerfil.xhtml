@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html" transient="true">
+        <h:head>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <h:outputStylesheet library="css" name="general.css"/>
+            <script src="https://www.google.com/recaptcha/api.js"></script>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Editar Perfil</title>
+            </f:facet>
+        </h:head>
+
+        <h:body class="dtic">
+            <ui:decorate template="/componentesGenerales/plantillas/template.xhtml"></ui:decorate>
+            <f:event type="preRenderView" listener="#{controladorRegistro.cargarCombosRegistro()}" />
+<!--            <f:event type="preRenderView" listener="{controladorRegistro.cargarUsuario()}" />-->
+            <div class="container">
+                <h:form id="formEditarPerfil">
+                    <p:messages id="mensajes"/>                 
+
+                    <p:panel header="Editar Perfil">
+                        <h:panelGrid columns="16">
+                            <!--No identificacion-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="No. Identificación " id="lblNoIdentificacion" for="inpNoIdentificacion"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:outputLabel value="#{controladorUsuario.user.usrPersona.prsIdentificacion}" id="inpNoIdentificacion"/>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgNoIdentificacion" for="inpNoIdentificacion" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Nombres-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Nombres: " id="lblNombre" for="inpNombre"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorUsuario.user.usrPersona.prsNombres}" id="inpNombre" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgNombre, lblNombre"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgNombre" for="inpNombre" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Primer Apellido-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Apellido Paterno: " id="lblPrimerApellido" for="inpPrimerApellido"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorUsuario.user.usrPersona.prsPrimerApellido}" id="inpPrimerApellido" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgPrimerApellido, lblPrimerApellido"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgPrimerApellido" for="inpPrimerApellido" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Segundo Apellido-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Apellido Materno: " id="lblSegundoApellido" for="inpSegundoApellido"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorUsuario.user.usrPersona.prsSegundoApellido}" id="inpSegundoApellido" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgSegundoApellido, lblSegundoApellido"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgSegundoApellido" for="inpSegundoApellido" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--fecha Nacimiento-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Fecha de nacimiento (dd-MM-aaaa): " id="lblFechaNacimiento" for="inpFechaNacimiento"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:calendar value="#{controladorUsuario.user.usrPersona.prsFechaNacimiento}" id="inpFechaNacimiento" required="true" navigator="false"  showOn="none" locale="es" pattern="dd-MM-yyyy" mask="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}">
+                                                <p:ajax event="blur" update=" lblFechaNacimiento , msgFechaNacimiento" />
+                                            </p:calendar> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgFechaNacimiento" for="inpFechaNacimiento" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Etnia-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Etnia: " id="lblEtnia" for="slcEtnia"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <h:selectOneMenu id="slcEtnia" 
+                                                             value="#{controladorUsuario.user.usrPersona.prsEtnia.etnId}" required="true"
+                                                             requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" style="width:100%">
+                                                <f:selectItem itemLabel="#{generalesConstantesForm.appSeleccione}" />
+                                                <f:selectItems var="item"
+                                                               value="#{controladorRegistro.listaEtnia}"
+                                                               itemLabel="#{item.etnDescripcion}"
+                                                               itemValue="#{item.etnId}" />
+                                                <p:ajax event="change"
+                                                        update="lblEtnia, msgEtnia" />
+                                            </h:selectOneMenu>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgEtnia" for="slcEtnia" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--sexo-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Sexo: " id="lblSexo" for="slcSexo"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <h:selectOneMenu id="slcSexo" 
+                                                             value="#{controladorUsuario.user.usrPersona.prsSexo}" required="true"
+                                                             requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" style="width:100%">
+                                                <f:selectItem itemLabel="#{generalesConstantesForm.appSeleccione}" />
+                                                <f:selectItems var="item"
+                                                               value="#{controladorRegistro.listaSexo}"
+                                                               itemLabel="#{item.label}"
+                                                               itemValue="#{item.value}" />
+                                                <p:ajax event="change"
+                                                        update="lblSexo, msgSexo" />
+                                            </h:selectOneMenu>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgSexo" for="slcSexo" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Mail institucional-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Correo Institucional UCE: " id="lblCorreoUCE" for="inpCorreoUCE"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorUsuario.user.usrPersona.prsMailInstitucional}" id="inpCorreoUCE" required="true" validator="validarCorreoUCE" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgCorreoUCE, lblCorreoUCE"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgCorreoUCE" for="inpCorreoUCE" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Mail personal-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Correo Personal: " id="lblCorreoPersonal" for="inpCorreoPersonal"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorUsuario.user.usrPersona.prsMailPersonal}" id="inpCorreoPersonal" required="true" validator="validarCorreoPersonal" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgCorreoPersonal, lblCorreoPersonal"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgCorreoPersonal" for="inpCorreoPersonal" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--telefono-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Telefono: " id="lblTelefono" for="inpTelefono"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorUsuario.user.usrPersona.prsTelefono}" id="inpTelefono" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarTelefono"> 
+                                                <p:ajax event="blur" update="msgTelefono, lblTelefono"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgTelefono" for="inpTelefono" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <div class="centrar">
+                        <p:commandButton value="Actualizar Datos" oncomplete="PF('wlgActualizarDatos').show();" />                       
+                        <p:commandButton value="Cancelar" action="irPrincipal" immediate="true"/>                       
+                    </div>
+                </h:form>
+            </div>
+
+            <p:dialog id="dlgRegistro" widgetVar="wlgActualizarDatos" header="ADVERTENCIA" modal="true" width="400px">
+
+                <h:form>
+                    <p:outputLabel value="¿Está seguro que desea actualizar sus datos?" />
+                    <div class="centrar">
+                        <p:commandButton value="Aceptar" action="#{controladorUsuario.updatePersona()}" update=":formEditarPerfil:mensajes" oncomplete="PF('wlgActualizarDatos').hide();">
+                            <f:param name="updatePrsId" value="#{controladorUsuario.user.usrId}"/>
+                        </p:commandButton>  
+                        <p:commandButton value="Cancelar" oncomplete="PF('wlgActualizarDatos').hide();" />
+                    </div>
+                </h:form>
+            </p:dialog>
+
+        </h:body>
+    </f:view>
+</html>
+

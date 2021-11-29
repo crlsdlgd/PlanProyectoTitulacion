@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!--    <h:head>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <meta name="viewport" content="width=device-width user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"></meta>
+        </h:head>-->
+    <h:body >
+        <h:form>
+            <p:menubar>
+                <p:submenu label="Propuestas" rendered="#{sesionUsuarioBean.estudiante or sesionUsuarioBean.docente}">
+                    <p:menuitem value="Proponer un nuevo Tema" outcome="/planTitulacion/generalidades/proponerPlan.xhtml"/>
+                    <p:separator/>
+                    <p:menuitem value="Ver Propuestas" outcome="/planTitulacion/generalidades/verPlan.xhtml"/>
+                    <p:separator/>
+                    <p:menuitem value="Mis Postulaciones" outcome="/planTitulacion/generalidades/verPostulaciones.xhtml"/>
+
+                    <p:separator/>
+                    <p:menuitem value="Concretar Plan" outcome="/planTitulacion/docente/concretarPlan.xhtml" rendered="#{sesionUsuarioBean.docente}"/>
+                    <p:separator/>
+                    <p:menuitem value="Planes por aprobar" outcome="/planTitulacion/docente/planesPorAprobar.xhtml" rendered="#{sesionUsuarioBean.docente}"/>
+                </p:submenu>
+
+                <p:submenu label="Proyectos" rendered="#{sesionUsuarioBean.estudiante or sesionUsuarioBean.docente}">
+                    <p:menuitem value="Mis Proyectos" outcome="/planTitulacion/generalidades/verProyectos.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Administración" rendered="#{sesionUsuarioBean.consejo}">
+                    <p:menuitem value="Planes por Revisar" outcome="/planTitulacion/consejo/planesPorRevisar.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Perfil">
+                    <p:menuitem value="Mi Perfil" outcome="/planTitulacion/generalidades/verPerfil.xhtml"/>
+                    <p:menuitem value="Cambiar Contraseña" outcome="/planTitulacion/generalidades/cambiarContrasena.xhtml"/> 
+                </p:submenu>
+
+                <f:facet name="options">
+                    <h:graphicImage name="/img/usuario_positivo.png" />
+                    <p:outputLabel value="#{controladorUsuario.user.usrNick}" />
+                    <p:commandButton title="Cerrar Sessión" actionListener="#{controladorUsuario.cerrarSession()}" action="inicio.xhtml" icon="ui-icon-power"/>
+                </f:facet>
+                <!--                <f:facet name="options">
+                                    <p:submenu label="{controladorUsuario.user.usrNick}" >
+                                    <p:menuButton value="{controladorUsuario.user.usrNick}">
+                
+                                           
+                                        <p:separator/>
+                                        <p:menuitem value="Cerrar Sessión" actionListener="{controladorUsuario.cerrarSession()}" action="inicio.xhtml" icon="ui-icon-power">
+                                            <p:commandButton value="Cerrar Sessión" actionListener="{controladorUsuario.cerrarSession()}" action="inicio.xhtml" icon="ui-icon-power"/>
+                                        </p:menuitem>
+                                        </p:submenu>
+                                    </p:menuButton>
+                                    
+                                </f:facet>-->
+            </p:menubar>
+        </h:form>
+    </h:body>
+</html>
+

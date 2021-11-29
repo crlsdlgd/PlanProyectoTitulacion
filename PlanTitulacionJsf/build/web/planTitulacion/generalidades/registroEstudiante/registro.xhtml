@@ -1,0 +1,412 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html" transient="true">
+        <h:head>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <h:outputStylesheet library="css" name="general.css"/>
+            <script src="https://www.google.com/recaptcha/api.js"></script>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Registro</title>
+            </f:facet>
+        </h:head>
+
+        <h:body class="dtic">
+            <ui:decorate template="/componentesGenerales/plantillas/template_1.xhtml"></ui:decorate>
+            <f:event type="preRenderView" listener="#{controladorRegistro.cargarCombosRegistro()}" />
+            <div class="container">
+                <h:form id="formRegistro">
+                    <p:messages id="mensajes"/>                 
+
+                    <p:panel header="Registro de Estudiante">
+                        <h:panelGrid columns="16">
+                            <!--Tipo identificacion-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Tipo de Identificación " id="lblTipoIdentificacion" for="slcTipoIdentificacion"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <h:selectOneMenu id="slcTipoIdentificacion" 
+                                                             value="#{controladorRegistro.prsTipoIdentificacion}" required="true"
+                                                             requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" style="width:100%">
+                                                <f:selectItem itemLabel="#{generalesConstantesForm.appSeleccione}" />
+                                                <f:selectItems var="item"
+                                                               value="#{controladorRegistro.listaTipoIdentificacion}"
+                                                               itemLabel="#{item.label}"
+                                                               itemValue="#{item.value}" />
+                                                <p:ajax event="change"
+                                                        update="lblTipoIdentificacion , slcTipoIdentificacion, msgTipoIdentificacion" />
+                                            </h:selectOneMenu>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgTipoIdentificacion" for="slcTipoIdentificacion" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--No identificacion-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="No. Identificación " id="lblNoIdentificacion" for="inpNoIdentificacion"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsIdentificacion}" id="inpNoIdentificacion" required="true" validator="validarCedula" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}">
+                                                <f:attribute name="tipoIdentificacion" value="#{controladorRegistro.prsTipoIdentificacion}"/>
+                                                <p:ajax event="blur" update="msgNoIdentificacion, lblNoIdentificacion, inpNoIdentificacion"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgNoIdentificacion" for="inpNoIdentificacion" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Nombres-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Nombres: " id="lblNombre" for="inpNombre"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsNombres}" id="inpNombre" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgNombre, lblNombre, inpNombre"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgNombre" for="inpNombre" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Primer Apellido-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Apellido Paterno: " id="lblPrimerApellido" for="inpPrimerApellido"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsPrimerApellido}" id="inpPrimerApellido" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgPrimerApellido, lblPrimerApellido, inpPrimerApellido"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgPrimerApellido" for="inpPrimerApellido" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Segundo Apellido-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Apellido Materno: " id="lblSegundoApellido" for="inpSegundoApellido"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsSegundoApellido}" id="inpSegundoApellido" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgSegundoApellido, lblSegundoApellido, inpSegundoApellido"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgSegundoApellido" for="inpSegundoApellido" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--fecha Nacimiento-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Fecha de nacimiento (dd-MM-aaaa): " id="lblFechaNacimiento" for="inpFechaNacimiento"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:calendar value="#{controladorRegistro.prsFechaNacimiento}" id="inpFechaNacimiento" required="true" navigator="false"  showOn="none" locale="es" pattern="dd-MM-yyyy" mask="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}">
+                                                <p:ajax event="blur" update=" lblFechaNacimiento , msgFechaNacimiento , inpFechaNacimiento" />
+                                            </p:calendar> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgFechaNacimiento" for="inpFechaNacimiento" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Etnia-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Etnia: " id="lblEtnia" for="slcEtnia"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <h:selectOneMenu id="slcEtnia" 
+                                                             value="#{controladorRegistro.prsEtnia}" required="true"
+                                                             requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" style="width:100%">
+                                                <f:selectItem itemLabel="#{generalesConstantesForm.appSeleccione}" />
+                                                <f:selectItems var="item"
+                                                               value="#{controladorRegistro.listaEtnia}"
+                                                               itemLabel="#{item.etnDescripcion}"
+                                                               itemValue="#{item.etnId}" />
+                                                <p:ajax event="change"
+                                                        update="lblEtnia, slcEtnia, msgEtnia" />
+                                            </h:selectOneMenu>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgEtnia" for="slcEtnia" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--sexo-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Sexo: " id="lblSexo" for="slcSexo"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <h:selectOneMenu id="slcSexo" 
+                                                             value="#{controladorRegistro.prsSexo}" required="true"
+                                                             requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" style="width:100%">
+                                                <f:selectItem itemLabel="#{generalesConstantesForm.appSeleccione}" />
+                                                <f:selectItems var="item"
+                                                               value="#{controladorRegistro.listaSexo}"
+                                                               itemLabel="#{item.label}"
+                                                               itemValue="#{item.value}" />
+                                                <p:ajax event="change"
+                                                        update="lblSexo, slcSexo, msgSexo" />
+                                            </h:selectOneMenu>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgSexo" for="slcSexo" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Mail institucional-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Correo Institucional UCE: " id="lblCorreoUCE" for="inpCorreoUCE"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsMailInstitucional}" id="inpCorreoUCE" required="true" validator="validarCorreoUCE" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgCorreoUCE, lblCorreoUCE, inpCorreoUCE"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgCorreoUCE" for="inpCorreoUCE" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Mail personal-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Correo Personal: " id="lblCorreoPersonal" for="inpCorreoPersonal"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsMailPersonal}" id="inpCorreoPersonal" required="true" validator="validarCorreoPersonal" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}"> 
+                                                <p:ajax event="blur" update="msgCorreoPersonal, lblCorreoPersonal, inpCorreoPersonal"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgCorreoPersonal" for="inpCorreoPersonal" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--telefono-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Telefono: " id="lblTelefono" for="inpTelefono"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsTelefono}" id="inpTelefono" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarTelefono"> 
+                                                <p:ajax event="blur" update="msgTelefono, lblTelefono, inpTelefono"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgTelefono" for="inpTelefono" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Discapacidad-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Posee alguna discapacidad: " id="lblDiscapacidad" for="slcDiscapacidad"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <h:selectOneMenu id="slcDiscapacidad" 
+                                                             value="#{controladorRegistro.prsDiscapacidad}" required="true"
+                                                             requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" style="width:100%">
+                                                <f:selectItem itemLabel="#{generalesConstantesForm.appSeleccione}" />
+                                                <f:selectItems var="item"
+                                                               value="#{controladorRegistro.listaDiscapacidad}"
+                                                               itemLabel="#{item.label}"
+                                                               itemValue="#{item.value}" />
+                                                <p:ajax event="change"
+                                                        update="lblDiscapacidad, slcDiscapacidad, msgDiscapacidad" />
+                                            </h:selectOneMenu>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgDiscapacidad" for="slcDiscapacidad" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Porcentaje Discapacidad-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Porcentaje de discapacidad %: " id="lblPorcentajeDiscapacidad" for="inpPorcentajeDiscapacidad"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsPorcentajeDiscapacidad}" id="inpPorcentajeDiscapacidad" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarCarnetDiscapacidad"> 
+                                                <f:attribute name="discapacidad" value="#{controladorRegistro.prsDiscapacidad}"/>
+                                                <p:ajax event="blur" update="msgPorcentajeDiscapacidad, lblPorcentajeDiscapacidad, inpPorcentajeDiscapacidad"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgPorcentajeDiscapacidad" for="inpPorcentajeDiscapacidad" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--Carnet Conadis-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Número de carné de discapacidad: " id="lblCarneConadis" for="inpCarneConadis"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:inputText value="#{controladorRegistro.prsCarnetConadis}" id="inpCarneConadis" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarCarnetDiscapacidad"> 
+                                                <f:attribute name="discapacidad" value="#{controladorRegistro.prsDiscapacidad}"/>
+                                                <p:ajax event="blur" update="msgCarneConadis, lblCarneConadis, inpCarneConadis"/>
+                                            </p:inputText> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgCarneConadis" for="inpCarneConadis" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--contrasena 1-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Contraseña: " id="lblPassword" for="inpPassword"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:password value="#{controladorRegistro.usrPassword}" id="inpPassword" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarContrasena"/> 
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgPassword" for="inpPassword" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+                            <!--contrasena 2-->
+                            <div class="row cells8"> 
+                                <div class="cell colspan5">
+                                    <ui:decorate template="/componentesGenerales/plantillas/pltComponenteGeneralEdit.xhtml">
+
+                                        <ui:define name="etiqueta">
+                                            <p:outputLabel value="Repita Contraseña: " id="lblPassword2" for="inpPassword2"/>
+                                        </ui:define>
+                                        <ui:define name="valor">
+                                            <p:password value="#{controladorRegistro.usrPassword2}" id="inpPassword2" required="true" requiredMessage="#{generalesConstantesForm.msgCampoRequerido}" validator="validarContrasena2">
+                                                <f:attribute name="contrasena1" value="#{controladorRegistro.usrPassword}"/>
+                                            </p:password>
+                                        </ui:define>
+                                        <ui:define name="etiquetaError">
+                                            <p:messages id="msgPassword2" for="inpPassword2" autoUpdate="true" style="width: 200px; font-size: 10px;"/>
+                                        </ui:define>
+
+                                    </ui:decorate>
+                                </div>
+                            </div>
+
+
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <!--*************ReCaptcha localhost******************-->
+                    <!--<div style="display: flex;justify-content: center;width: 100%;" class="g-recaptcha" data-sitekey="6LeHoCQaAAAAACcmq_ZllX_2dEj4APwoR-uHNUyV"></div>-->
+                    <!--*************ReCaptcha Digital Ocean******************-->
+                    <div style="display: flex;justify-content: center;width: 100%;" class="g-recaptcha" data-sitekey="6Lfc1KgaAAAAAJnbi0n5hsjqYt-GLuguKjYy_ium"></div>
+                    <br/>
+                    <div class="centrar">
+                        <p:commandButton value="Registrarse" action="#{controladorRegistro.verificarCatpchaRegistro()}" />                       
+                        <p:commandButton value="Cancelar" action="irInicio" immediate="true"/>                       
+                    </div>
+                </h:form>
+            </div>
+
+            <p:dialog id="dlgRegistro" widgetVar="wlgRegistro" header="ADVERTENCIA" modal="true" width="400px">
+
+                <h:form>
+                    <p:outputLabel value="El registro de usuarios esta únicamente disponible para ESTUDIANTES de la carrera de Ingeniería Informática de la Facultad de Ingeniería Ciencias Físicas y Matemática de la Universidad Central del Ecuador. Si usted es Docente, Administrativo, Director de la carrera pruebe ingresar con su nick y clave institucional. Si no puede ingresar póngase en contacto con soporte técnico." />
+                    <div class="centrar">
+                        <p:commandButton value="Registrarse" action="#{controladorRegistro.guardarUsuario()}" update=":formRegistro:mensajes" oncomplete="PF('wlgRegistro').hide();"/>  
+                        <p:commandButton value="Cancelar" oncomplete="PF('wlgRegistro').hide();" />
+                    </div>
+                </h:form>
+            </p:dialog>
+
+        </h:body>
+    </f:view>
+</html>
+

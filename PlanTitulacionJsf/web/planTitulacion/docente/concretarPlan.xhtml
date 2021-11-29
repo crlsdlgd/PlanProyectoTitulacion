@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <h:outputStylesheet library="css" name="general.css"/>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Concretar Plan</title>
+            </f:facet>
+
+        </h:head>
+
+        <h:body class="dtic">
+            <ui:decorate template="/componentesGenerales/plantillas/template.xhtml"></ui:decorate>
+            <f:event type="preRenderView" listener="#{controladorPlan.cargarMisPostulaciones()}" />
+
+            <h:form id="formu">
+                <p:growl id="growl" life="3000" />
+                <p:panel header="Concretar proyecto de titulación" >
+                    <p:dataTable id="data" var="plan" value="#{controladorPlan.listaPlan}" >
+                        <p:column headerText="Tema">
+                            <h:outputText value="#{plan.plnTema}"/>
+                        </p:column>
+                        <p:column headerText="Detalle">
+                            <h:outputText value="#{plan.plnDetalle}" />
+                        </p:column>
+                        <p:column headerText="Objetivos">
+                            <h:outputText value="#{plan.plnObjetivos}"/>
+                        </p:column>
+                        <p:column headerText="Justificación">
+                            <h:outputText value="#{plan.plnJustificación}" />
+                        </p:column>
+                        <p:column headerText="Propuesto por">
+                            <p:commandLink value="Ver Precursor" actionListener="#{controladorUsuario.verUsuarioPrecursor(plan)}" update=":dlgWare2"/>
+                        </p:column>   
+                        <p:column headerText="Ver Postulantes">
+                            <p:commandLink value="Ver Postulantes" actionListener="#{controladorUsuario.verPostulantes(plan)}" update=":dlgWare3"/>
+                        </p:column>
+                        <p:column headerText="Apto para revisión">
+                            <p:commandLink value="Listo para revisión" actionListener="#{controladorPlan.selecionarPlan(plan)}"  oncomplete="PF('wdlWare4').show();" update=":dlgWare4"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            <p:commandButton value="Regresar" action="irPrincipal" />
+
+            <p:dialog header="Precursor" widgetVar="wdlWare2" id="dlgWare2">
+                <h:form>
+                    <p:outputLabel value="Nombre: #{controladorUsuario.usuarioPrecursor.usrPersona.prsNombres}" />
+                    <br/>
+                    <p:outputLabel value="Función: #{controladorUsuario.usuarioPrecursorRol.rolDescripcion}" />
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="Postulantes" widgetVar="wdlWare3" id="dlgWare3" width="50%">
+                <h:form class="centrar">
+                    <p:dataTable id="dataPostulantes" var="postulante" value="#{controladorUsuario.listaPostulantes}">
+                        <p:column  headerText="Postulantes">
+                            <p:outputLabel value="#{postulante.usrId.usrPersona.prsNombres} #{postulante.usrId.usrPersona.prsPrimerApellido}" />
+                        </p:column>
+                        <p:column  headerText="Acción">
+
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Agregar este postulante al proyecto" id="lblPostulante" for="slcBBPostulante"/>
+                                <p:selectBooleanButton id="slcBBPostulante" onLabel="Si" offLabel="No" value="#{postulante.plusPostulado}"/>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Guardar Cambios" actionListener="#{controladorUsuario.guardarProyecto()}" oncomplete="PF('wdlWare3').hide()"/>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="¿Está Seguro?" widgetVar="wdlWare4" id="dlgWare4" width="300px">
+                <h:form class="centrar">
+                    <p:outputLabel value="¿Seguro que este tema esta listo para revisión?" />
+                    <br/>
+                    <p:commandButton value="SI" actionListener="#{controladorPlan.listoRevision()}" oncomplete="PF('wdlWare4').hide();" update=":formu:growl" ajax="false"/>
+                    <p:commandButton value="NO" oncomplete="PF('wdlWare4').hide();"/>
+                </h:form>
+            </p:dialog>
+
+        </h:body>
+    </f:view>
+</html>
+

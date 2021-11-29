@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <h:outputStylesheet library="css" name="general.css"/>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Proponer Nuevo Tema</title>
+            </f:facet>
+
+        </h:head>
+
+        <h:body class="dtic">
+            <ui:decorate template="/componentesGenerales/plantillas/template.xhtml"></ui:decorate>
+
+            <h:form enctype="multipart/form-data" acceptcharset="UTF-8">
+                <p:growl id="growl" life="3000" showDetail="true"/>
+
+                <p:panel header="Proponer proyecto de titulación" >
+                    <div class="grid condensed">
+                        <h:panelGrid columns="2" > 
+                           <h:outputText value="Tema Propuesto " /> 
+                           <p:inputText placeholder="Ingrese tema propuesto " value="#{controladorPlan.txtTema}" style=" width: 100%;"/>
+
+                            <h:outputText value="Detalle" /> 
+                            <p:inputTextarea rows="6" cols="50" value="#{controladorPlan.txtDetalle}" style=" width: 100%;"/>
+                            
+                            <h:outputText value="Objetivos" /> 
+                            <p:inputTextarea rows="6" cols="50" value="#{controladorPlan.txtObjetivos}" style=" width: 100%;"/>
+                            
+                            <h:outputText value="Justificación" /> 
+                            <p:inputTextarea rows="6" cols="50" value="#{controladorPlan.txtJustificacion}" style=" width: 100%;"/>
+
+                        </h:panelGrid >
+
+                        <p:commandButton value="Guardar Cambios" actionListener="#{controladorPlan.guardarPropuestaPlan()}" style="background-color: #5ce620" update="growl" ajax="false"/>
+                        <p:commandButton value="Regresar" action="irPrincipal"/>
+                    </div>
+                </p:panel>
+
+            </h:form>
+        </h:body>
+
+    </f:view>
+</html>
+
